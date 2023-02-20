@@ -240,18 +240,18 @@ contract ConsulUpgradeable is Initializable, UUPSUpgradeable, AccessControlUpgra
     }
 
     /**
-     * @dev Returns the state of the dictorship
+     * @dev Returns the state of the dictatorship
      */
-    function getDictorMode() external view returns (bool) {
-        return dictorMode;
+    function getDictatorMode() external view returns (bool) {
+        return dictatorMode;
     }
 
     /**
-     * @dev Allows owner to toggle dictor mode
+     * @dev Allows owner to toggle dictator mode
      */
-    function toggleDictorMode() external onlyOwner {
-        dictorMode = !dictorMode;
-        emit DictatorModeEnabled(dictorMode);
+    function toggleDictatorMode() external onlyOwner {
+        dictatorMode = !dictatorMode;
+        emit DictatorModeEnabled(dictatorMode);
     }
 
     /**
