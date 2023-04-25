@@ -1,15 +1,10 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.0;
+pragma solidity ^0.8.7;
 pragma abicoder v2;
 
-import "@openzeppelin/contracts/utils/math/SafeMath.sol";
-import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
-import "@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol";
-import "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
+import "@openzeppelin/contracts/access/AccessControl.sol";
 
-contract ConsulUpgradeable is Initializable, UUPSUpgradeable, AccessControlUpgradeable {
-    using SafeMath for uint256;
-
+contract Consul is AccessControl {
     bytes32 public constant OWNER_ROLE = keccak256("OWNER_ROLE");
     bytes32 public constant CONTROLLER_ROLE = keccak256("CONTROLLER_ROLE");
 
@@ -51,6 +46,7 @@ contract ConsulUpgradeable is Initializable, UUPSUpgradeable, AccessControlUpgra
     struct Server {
         string ip;
         uint256 port;
+        string ens;
     }
 
     /**
@@ -126,11 +122,10 @@ contract ConsulUpgradeable is Initializable, UUPSUpgradeable, AccessControlUpgra
      */
     event DictatorModeEnabled(bool indexed dictatorMode);
 
-    function initialize() public initializer {
+    constructor() {
         _setupRole(OWNER_ROLE, msg.sender);
         _setRoleAdmin(OWNER_ROLE, OWNER_ROLE);
         _setRoleAdmin(CONTROLLER_ROLE, OWNER_ROLE);
-        __UUPSUpgradeable_init();
     }
 
     /**
@@ -153,6 +148,7 @@ contract ConsulUpgradeable is Initializable, UUPSUpgradeable, AccessControlUpgra
      * @dev Allows the owner to add a new praetor
      * @param id The id of the praetor
      * @param serverIp The ip address of the server
+     * @param ens The ens name of the server
      * @param serverPort The port the server is listening on
      * @param nodeIp The ip address of the node
      * @param nodePort The port the node is listening on
@@ -162,13 +158,14 @@ contract ConsulUpgradeable is Initializable, UUPSUpgradeable, AccessControlUpgra
         bytes32 id,
         string memory serverIp,
         uint256 serverPort,
+        string memory ens,
         string memory nodeIp,
         uint256 nodePort
     ) external onlyOwner returns (bool) {
         praetors.push(
             Praetor({
                 id: id,
-                server: Server({ ip: serverIp, port: serverPort }),
+                server: Server({ ip: serverIp, port: serverPort, ens: ens }),
                 node: Node({ ip: nodeIp, port: nodePort }),
                 active: true
             })
@@ -277,7 +274,4 @@ contract ConsulUpgradeable is Initializable, UUPSUpgradeable, AccessControlUpgra
     function removePayload(bytes32 _payloadId) external onlyOwner {
         delete payloads[_payloadId];
     }
-
-    /** @dev Protected UUPS upgrade authorization fuction */
-    function _authorizeUpgrade(address) internal override onlyOwner {}
 }

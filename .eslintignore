@@ -1,21 +1,19 @@
-# directories
-.yarn/
-**/.coverage_artifacts
-**/.coverage_cache
-**/.coverage_contracts
-**/artifacts
-**/build
-**/cache
-**/coverage
-**/dist
-**/node_modules
-**/types
+!.*.js
+!.*.ts
+!.*.json
+!.vscode
 
-# files
-*.env
-*.log
-.pnp.*
-coverage.json
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
+artifacts
+bin
+cache
+contracts
+docs
+node_modules
+soldata
+typechain-types
+
+gasReporterOutput.json
+
+coverage*
+tags*
+yarn*

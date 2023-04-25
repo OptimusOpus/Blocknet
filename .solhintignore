@@ -1,3 +1,22 @@
-# directories
-**/artifacts
-**/node_modules
+.github
+.husky
+.vscode
+artifacts
+bin
+cache
+docs
+node_modules
+scripts
+soldata
+typechain-types
+
+coverage*
+*.js
+*.ts
+*.json
+*.md
+.*rc
+.env*
+.*ignore
+tags*
+yarn*

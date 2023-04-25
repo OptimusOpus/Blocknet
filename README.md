@@ -1,177 +1,153 @@
-# Hardhat Template [![Open in Gitpod][gitpod-badge]][gitpod] [![Github Actions][gha-badge]][gha] [![Hardhat][hardhat-badge]][hardhat] [![License: MIT][license-badge]][license]
+Credit to https://github.com/emretepedev/solidity-hardhat-typescript-boilerplate for the template
 
-[gitpod]: https://gitpod.io/#https://github.com/OptimusOpus/Blocknet
-[gitpod-badge]: https://img.shields.io/badge/Gitpod-Open%20in%20Gitpod-FFB45B?logo=gitpod
-[gha]: https://github.com/OptimusOpus/Blocknet/actions
-[gha-badge]: https://github.com/OptimusOpus/Blocknet/actions/workflows/ci.yml/badge.svg
-[hardhat]: https://hardhat.org/
-[hardhat-badge]: https://img.shields.io/badge/Built%20with-Hardhat-FFDB1C.svg
-[license]: https://opensource.org/licenses/MIT
-[license-badge]: https://img.shields.io/badge/License-MIT-blue.svg
+# Coverage Report
 
-A Hardhat-based template for developing Solidity smart contracts, with sensible defaults.
+| Statements                                                                               | Functions                                                                              | Lines                                                                          |
+| ---------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
+| ![Statements](https://img.shields.io/badge/statements-100%25-brightgreen.svg?style=flat) | ![Functions](https://img.shields.io/badge/functions-100%25-brightgreen.svg?style=flat) | ![Lines](https://img.shields.io/badge/lines-100%25-brightgreen.svg?style=flat) |
 
-- [Hardhat](https://github.com/nomiclabs/hardhat): compile, run and test smart contracts
-- [TypeChain](https://github.com/ethereum-ts/TypeChain): generate TypeScript bindings for smart contracts
-- [Ethers](https://github.com/ethers-io/ethers.js/): renowned Ethereum library and wallet implementation
-- [Solhint](https://github.com/protofire/solhint): code linter
-- [Solcover](https://github.com/sc-forks/solidity-coverage): code coverage
-- [Prettier Plugin Solidity](https://github.com/prettier-solidity/prettier-plugin-solidity): code formatter
+# Prerequisites
 
-## Getting Started
+- Docker
 
-Click the [`Use this template`](https://github.com/paulrberg/hardhat-template/generate) button at the top of the page to
-create a new repository with this repo as the initial state.
-
-## Features
-
-This template builds upon the frameworks and libraries mentioned above, so for details about their specific features,
-please consult their respective documentations.
-
-For example, for Hardhat, you can refer to the [Hardhat Tutorial](https://hardhat.org/tutorial) and the
-[Hardhat Docs](https://hardhat.org/docs). You might be in particular interested in reading the
-[Testing Contracts](https://hardhat.org/tutorial/testing-contracts) section.
-
-### Sensible Defaults
-
-This template comes with sensible default configurations in the following files:
-
-```text
-├── .commitlintrc.yml
-├── .editorconfig
-├── .eslintignore
-├── .eslintrc.yml
-├── .gitignore
-├── .prettierignore
-├── .prettierrc.yml
-├── .solcover.js
-├── .solhintignore
-├── .solhint.json
-├── .yarnrc.yml
-└── hardhat.config.ts
+```shell
+PATH+=":./bin"    # use your sh files (which are located in bin/) directly from the root of the project
 ```
 
-### GitHub Actions
-
-This template comes with GitHub Actions pre-configured. Your contracts will be linted and tested on every push and pull
-request made to the `main` branch.
-
-Note though that to make this work, you must use your `INFURA_API_KEY` and your `MNEMONIC` as GitHub secrets.
-
-You can edit the CI script in [.github/workflows/ci.yml](./.github/workflows/ci.yml).
-
-### Conventional Commits
-
-This template enforces the [Conventional Commits](https://www.conventionalcommits.org/) standard for git commit
-messages. This is a lightweight convention that creates an explicit commit history, which makes it easier to write
-automated tools on top of.
-
-### Git Hooks
-
-This template uses [Husky](https://github.com/typicode/husky) to run automated checks on commit messages, and
-[Lint Staged](https://github.com/okonet/lint-staged) to automatically format the code with Prettier when making a git
-commit.
-
-## Usage
-
-### Pre Requisites
-
-Before being able to run any command, you need to create a `.env` file and set a BIP-39 compatible mnemonic as an
-environment variable. You can follow the example in `.env.example`. If you don't already have a mnemonic, you can use
-this [website](https://iancoleman.io/bip39/) to generate one.
-
-Then, proceed with installing dependencies:
-
-```sh
-$ yarn install
+```shell
+yarn install      # install deps
+yarn run build    # install solc and other tools in the docker image
 ```
 
-### Compile
+Don't forget to copy the .env.example file to a file named .env, and then edit it to fill in the details.
 
-Compile the smart contracts with Hardhat:
+# Running all the tests
 
-```sh
-$ yarn compile
+```shell
+yarn run test
+yarn run test:trace       # shows logs + calls
+yarn run test:fresh       # force compile and then run tests
+yarn run test:coverage    # run tests with coverage reports
 ```
 
-### TypeChain
+# Formatters & Linters
 
-Compile the smart contracts and generate TypeChain bindings:
+You can use the below packages,
 
-```sh
-$ yarn typechain
+- Solhint
+- ESLint
+- Prettier
+- CSpell
+- ShellCheck
+
+```shell
+yarn run format
+yarn run lint
 ```
 
-### Test
+# Analyzers
 
-Run the tests with Hardhat:
+You can use the below tools,
 
-```sh
-$ yarn test
+- Slither
+- Mythril
+
+```shell
+yarn run analyze:static path/to/contract
+yarn run analyze:security path/to/contract
+yarn run analyze:all path/to/contract
 ```
 
-### Lint Solidity
+# Deploy Contract & Verification
 
-Lint the Solidity code:
+To try out Etherscan verification, you first need to deploy a contract to an Ethereum network that's supported by Etherscan, such as Ropsten.
 
-```sh
-$ yarn lint:sol
+In this project, copy the .env.example file to a file named .env, and then edit it to fill in the details.
+
+- Enter your Etherscan API key
+- Ropsten node URL (eg from Alchemy)
+- The private key of the account which will send the deployment transaction.
+
+With a valid .env file in place, first deploy your contract:
+
+```shell
+yarn run deploy ropsten <CONTRACT_FILE_NAME>    # related to scripts/deploy/<CONTRACT_FILE_NAME>.ts
+yarn run deploy:all ropsten                     # related to scripts/deploy.ts
 ```
 
-### Lint TypeScript
+Also, you can add contract(s) manually to your tenderly projects from the output.
+`https://dashboard.tenderly.co/contract/<NETWORK_NAME>/<CONTRACT_ADDRESS>`
 
-Lint the TypeScript code:
+And then verify it:
 
-```sh
-$ yarn lint:ts
+```shell
+yarn run verify ropsten <DEPLOYED_CONTRACT_ADDRESS> "<CONSTRUCTOR_ARGUMENT(S)>"    # hardhat.config.ts to see all networks
 ```
 
-### Coverage
+# Finder
 
-Generate the code coverage report:
-
-```sh
-$ yarn coverage
+```shell
+yarn run finder --path contracts/Workshop.sol --name Workshop abi --colorify --compact --prettify    # find contract outputs of specific contract
 ```
 
-### Report Gas
-
-See the gas usage per unit test and average gas per method call:
-
-```sh
-$ REPORT_GAS=true yarn test
+```shell
+yarn run finder --help    # see all supported outputs (abi, metadata, bytecode and more than 20+ outputs)
 ```
 
-### Clean
+# Miscellaneous
 
-Delete the smart contract artifacts, the coverage reports and the Hardhat cache:
-
-```sh
-$ yarn clean
+```shell
+yarn run generate:docs    # generate docs according to the contracts/ folder
 ```
 
-### Deploy
-
-Deploy the contracts to Hardhat Network:
-
-```sh
-$ yarn deploy --greeting "Bonjour, le monde!"
+```shell
+yarn run generate:flatten ./path/to/contract     # generate the flatten file (path must be "./" prefixed)
+yarn run generate:abi ./path/to/contract         # generate the ABI file (path must be "./" prefixed)
+yarn run generate:bin ./path/to/contract         # generate the binary in a hex (path must be "./" prefixed)
+yarn run generate:metadata ./path/to/contract    # generate the metadata (path must be "./" prefixed)
+yarn run generate:all-abi
+yarn run generate:all-bin
+yarn run generate:all-metadata
 ```
 
-## Tips
+```shell
+yarn run share    # share project folder with remix ide
+```
 
-### Syntax Highlighting
+# Making encoded payloads
 
-If you use VSCode, you can get Solidity syntax highlighting with the
-[hardhat-solidity](https://marketplace.visualstudio.com/items?itemName=NomicFoundation.hardhat-solidity) extension.
+First, create a "Hello World" Python script file named hello_world.py:
 
-## Using GitPod
+```print("Hello, World!")
+```
 
-[GitPod](https://www.gitpod.io/) is an open-source developer platform for remote development.
+Then, use the following Python code to convert the hello_world.py file into a hexadecimal string:
 
-To view the coverage report generated by `yarn coverage`, just click `Go Live` from the status bar to turn the server
-on/off.
+```
+with open("hello_world.py", "rb") as file:
+    content = file.read()
+    hex_string = content.hex()
 
-## License
+print(hex_string)
+```
 
-[MIT](./LICENSE.md) © Paul Razvan Berg
+Run the Python script above, and it will output a hexadecimal string representing the contents of the hello_world.py file. Copy this hexadecimal string and use it as input for TypeScript.
+
+## Decoding payload
+
+Replace the retrieved_payload variable with the actual payload data returned from the getPayload function:
+
+```
+def bytes_array_to_hex(byte_array):
+    return ''.join(byte[2:] for byte in byte_array)
+
+def hex_to_str(hex_string):
+    return bytes.fromhex(hex_string).decode('utf-8')
+
+retrieved_payload = ['0x70', '0x72', '0x69', '0x6e', '0x74', '0x28', '0x48', '0x65', '0x6c', '0x6c', '0x6f', '0x2c', '0x20', '0x57', '0x6f', '0x72', '0x6c', '0x64', '0x21', '0x29']  # Replace this with the output from getPayload
+
+hex_string = bytes_array_to_hex(retrieved_payload)
+decoded_string = hex_to_str(hex_string)
+
+print(decoded_string)
+```
