@@ -1,5 +1,60 @@
 Credit to https://github.com/emretepedev/solidity-hardhat-typescript-boilerplate for the template
 
+# Consul Smart Contract
+
+The Consul smart contract is designed to manage a decentralized network of Praetor nodes and their corresponding servers. The contract enables the owner and controllers to execute commands, manage Praetors, and maintain a command history. It also provides an optional "dictator mode" as a fallback mechanism in case the Praetor nodes are compromised. By leveraging blockchain technology, this architecture provides censorship resistance and increased security against attacks, making it difficult for bad actors to take control of the network.
+
+## Features
+
+### Praetor Management
+
+Praetors are represented as structs containing details such as the server's IP address, port, ENS name, node IP address, and port. The contract provides functions to:
+
+1. Add a new Praetor
+2. Remove a Praetor
+3. Deactivate a Praetor
+
+### Command Management
+
+The contract maintains a history of commands executed in the network. The current command is set to "REPORT" by default. Controllers can change the current command, and the previous command is added to the command history. The contract provides functions to:
+
+1. Change the current command
+2. Get the current command
+3. Get a command from command history by index
+4. Get the length of the command history
+
+### Dictator Mode
+
+Dictator mode is a fallback mechanism that, when enabled, restricts the network to execute commands only through the Consul contract. This mode is useful in cases where the Praetor nodes are compromised, providing the owner with the ability to maintain control until the nodes are restored. Dictator mode comes with some trade-offs, such as increased gas costs and potentially reduced features.
+
+In dictator mode, payloads can be added and removed by controllers and the owner, respectively. The payloads can be a list of email addresses for spamming or IP addresses for DDoS attacks, among other things.
+
+The contract provides functions to:
+
+1. Toggle dictator mode
+2. Get the dictator mode state
+3. Add a payload
+4. Remove a payload
+5. Get a payload by its ID
+
+### Access Control
+
+The contract uses OpenZeppelin's AccessControl for managing roles and permissions. There are two main roles:
+
+1. Owner (OWNER_ROLE): Has full control over the contract and can delegate control to a third party.
+2. Controller (CONTROLLER_ROLE): Can manage commands and payloads but cannot change the owner or manage Praetors.
+
+The owner can transfer ownership to a new address and grant or revoke the controller role.
+
+## Censorship Resistance and Security
+
+By utilizing blockchain technology, the Consul smart contract architecture provides censorship resistance and increased security against attacks. The decentralized nature of the network makes it harder for bad actors to take control or manipulate the system. Moreover, the immutability of the blockchain ensures that the command history and Praetor management actions cannot be tampered with, providing a transparent and auditable record of the network's operations.
+
+
+<div style="width: 640px; height: 480px; margin: 10px; position: relative;">
+<iframe allowfullscreen frameborder="0" style="width:640px; height:480px" src="https://lucid.app/documents/embedded/a21bb987-01e4-413c-982c-1e66bf14dba7" id="OQjSE2h6wtFd"></iframe>
+</div>
+
 # Coverage Report
 
 | Statements                                                                               | Functions                                                                              | Lines                                                                          |
