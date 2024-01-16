@@ -1,7 +1,7 @@
-import { loadFixture } from '@nomicfoundation/hardhat-network-helpers';
+//import { loadFixture } from '@nomicfoundation/hardhat-network-helpers';
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers';
-import { expect, assert } from 'chai';
-import { constants, BigNumber } from 'ethers';
+import { expect } from 'chai';
+// import { constants, BigNumber } from 'ethers';
 import { ethers } from 'hardhat';
 
 // eslint-disable-next-line node/no-missing-import
@@ -18,9 +18,9 @@ describe('Consul', () => {
   const OWNER_ROLE = ethers.utils.keccak256(
     ethers.utils.toUtf8Bytes('OWNER_ROLE')
   );
-  const CONTROLLER_ROLE = ethers.utils.keccak256(
-    ethers.utils.toUtf8Bytes('CONTROLLER_ROLE')
-  );
+  // const CONTROLLER_ROLE = ethers.utils.keccak256(
+  //   ethers.utils.toUtf8Bytes('CONTROLLER_ROLE')
+  // );
 
   const newPraetor = {
     id: ethers.utils.id('New Praetor'),
