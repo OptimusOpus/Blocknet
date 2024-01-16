@@ -50,12 +50,7 @@ The owner can transfer ownership to a new address and grant or revoke the contro
 
 By utilizing blockchain technology, the Consul smart contract architecture provides censorship resistance and increased security against attacks. The decentralized nature of the network makes it harder for bad actors to take control or manipulate the system. Moreover, the immutability of the blockchain ensures that the command history and Praetor management actions cannot be tampered with, providing a transparent and auditable record of the network's operations.
 
-
-<div style="width: 640px; height: 480px; margin: 10px; position: relative;">
-
-<iframe allowfullscreen frameborder="0" style="width:640px; height:480px" src="https://lucid.app/documents/embedded/a21bb987-01e4-413c-982c-1e66bf14dba7" id="OQjSE2h6wtFd"></iframe>
-
-</div>
+![Flow_chart](https://lucid.app/documents/embedded/a21bb987-01e4-413c-982c-1e66bf14dba7)
 
 # Coverage Report
 
@@ -176,6 +171,7 @@ yarn run share    # share project folder with remix ide
 First, create a "Hello World" Python script file named hello_world.py:
 
 ```print("Hello, World!")
+
 ```
 
 Then, use the following Python code to convert the hello_world.py file into a hexadecimal string:

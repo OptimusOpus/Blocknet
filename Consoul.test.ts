@@ -5,7 +5,7 @@ import { constants, BigNumber } from 'ethers';
 import { ethers } from 'hardhat';
 
 // eslint-disable-next-line node/no-missing-import
-import type { Consul, Consul__factory } from '../typechain-types';
+import type { Consul, Consul__factory } from '../typechain-types/contracts';
 
 describe('Consul', () => {
   let consul: Consul;
