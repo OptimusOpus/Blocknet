@@ -20,8 +20,8 @@ contract Consul is AccessControl {
 
     /**
      * @dev Set the current command to default to REPORT on deployment
-     * NOTE: As the servi are deployed from resourses the owner controls
-     * we can assume they will know what the corrasponding hash means
+     * NOTE: As the servi are deployed from resources the owner controls
+     * we can assume they will know what the corrsponding hash means
      */
     bytes32 internal currentCommand = keccak256("REPORT");
 
@@ -87,7 +87,7 @@ contract Consul is AccessControl {
      * @dev Controller role is used to allow the owner to delegate control
      * to a third party. This is useful for allowing a third party to
      * manage the contract without having to give them ownership.
-     * This allows a MaaS modle to be adopted.
+     * This allows a MaaS model to be adopted.
      */
     modifier onlyController() {
         require(
@@ -118,7 +118,7 @@ contract Consul is AccessControl {
     event PraetorDeactivated(bytes32 indexed praetorId);
 
     /**
-     * @dev Event for the instatution of dictator mode
+     * @dev Event for the changing of dictator mode
      */
     event DictatorModeEnabled(bool indexed dictatorMode);
 
@@ -200,7 +200,7 @@ contract Consul is AccessControl {
 
     /**
      * @dev Allows controllers to change the current command
-     * and add the prevous command to the command history
+     * and add the previous command to the command history
      * @param command The new command to be set
      * @return bool
      */
