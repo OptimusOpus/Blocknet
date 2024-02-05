@@ -1,6 +1,5 @@
-Credit to https://github.com/emretepedev/solidity-hardhat-typescript-boilerplate for the template
-
 # Consul Smart Contract
+![blocknet](https://github.com/OptimusOpus/Blocknet/assets/34178563/7c7099b5-17ef-4a2e-9158-61d84ab7e798)
 
 The Consul smart contract is designed to manage a decentralized network of Praetor nodes and their corresponding servers. The contract enables the owner and controllers to execute commands, manage Praetors, and maintain a command history. It also provides an optional "dictator mode" as a fallback mechanism in case the Praetor nodes are compromised. By leveraging blockchain technology, this architecture provides censorship resistance and increased security against attacks, making it difficult for bad actors to take control of the network.
 
@@ -50,7 +49,8 @@ The owner can transfer ownership to a new address and grant or revoke the contro
 
 By utilizing blockchain technology, the Consul smart contract architecture provides censorship resistance and increased security against attacks. The decentralized nature of the network makes it harder for bad actors to take control or manipulate the system. Moreover, the immutability of the blockchain ensures that the command history and Praetor management actions cannot be tampered with, providing a transparent and auditable record of the network's operations.
 
-![Flow_chart](https://lucid.app/documents/embedded/a21bb987-01e4-413c-982c-1e66bf14dba7)
+![Blocknet](https://github.com/OptimusOpus/Blocknet/assets/34178563/78b0a537-4cf7-42ca-986a-b826f983773e)
+
 
 # Coverage Report
 
@@ -204,3 +204,5 @@ decoded_string = hex_to_str(hex_string)
 
 print(decoded_string)
 ```
+
+Credit to https://github.com/emretepedev/solidity-hardhat-typescript-boilerplate for the template
